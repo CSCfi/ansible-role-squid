@@ -1,13 +1,8 @@
 ---
 # tasks file for ansible-role-squid
 
-- name: "Install squid"
-  yum: name=squid state=latest
+- include: redhat.yml
+  when: ansible_os_family == "RedHat"
 
-- name: "Template in squid.conf"
-  template: src=squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=squid mode=0640 backup=yes
-  register: squidconfig
-
-- name: "Restart squid if config changed"
-  service: name=squid state=restarted
-  when: squidconfig.changed
+- include: debian.yml
+  when: ansible_os_family == "Debian"
