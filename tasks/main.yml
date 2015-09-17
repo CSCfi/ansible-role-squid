@@ -1,0 +1,13 @@
+---
+# tasks file for ansible-role-squid
+
+- name: "Install squid"
+  yum: name=squid state=latest
+
+- name: "Template in squid.conf"
+  template: src=squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=squid mode=640 backupes=yes
+  register: squidconfig
+
+- name: "Restart squid if config changed"
+  service: name=squid state=restarted
+  when: squidconfig.changed
