@@ -6,6 +6,13 @@ Installs and configures a Squid proxy for RHEL7 based OS.
 Requirements
 ------------
 
+get this error?
+<pre>
+{"failed": true}
+msg: Destination /etc/squid not writable
+</pre>
+
+Set "sudo: yes" on the host
 
 Role Variables
 --------------
