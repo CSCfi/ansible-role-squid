@@ -1,3 +1,9 @@
 ---
 # defaults file for ansible-role-squid
-internal_net: "10.0.0.0/8"
+squid_internal_net: {{ internal_net | Default("") }}
+squid_default_spool_dir: "/var/spool/squid"
+# cache_dir ufs /squid/cache  100000 16 256
+squid_spool_dir2: { path: "/squid/cache", MB: 100000, L1: 16, L2: 256 }
+squid_block_yum_metadata: True
+squid_allow_snmp_local: True
+squid_cache_local: True

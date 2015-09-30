@@ -4,14 +4,20 @@
 #
 # Recommended minimum configuration:
 #
+{% if squid_cache_local %}
+acl manager url_regex -i ^cache_object:// /squid-internal-mgr/
+acl localhost src 127.0.0.1 ::1
+{% endif %}
 
 # Example rule allowing access from your local networks.
 # Adapt to list your (internal) IP networks from where browsing
 # should be allowed
-#acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
+acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
 #acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
 #acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
-acl localnet src {{ internal_net }} # internal ethernet network
+{% if internal_net %}
+acl localnet src {{ squid_internal_net }} # internal ethernet network
+{% endif %}
 acl localnet src fc00::/7       # RFC 4193 local private network range
 acl localnet src fe80::/10      # RFC 4291 link-local (directly plugged) machines
 
@@ -66,7 +72,7 @@ http_port 3128
 #cache_dir ufs /var/spool/squid 100 16 256
 
 # Leave coredumps in the first cache dir
-coredump_dir /var/spool/squid
+coredump_dir {{ squid_default_spool_dir }}
 
 #
 # Add any of your own refresh_pattern entries above these.
@@ -75,3 +81,26 @@ refresh_pattern ^ftp:		1440	20%	10080
 refresh_pattern ^gopher:	1440	0%	1440
 refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
 refresh_pattern .		0	20%	4320
+
+### Additions
+
+cache_dir ufs {{ squid_default_spool_dir }} 100 16 256
+{% if squid_spool_dir2 %}
+cache_dir ufs {{ squid_spool_dir2["path"] }} {{ squid_spool_dir2["MB"] }} {{ squid_spool_dir2["L1"] }} {{ squid_spool_dir2["L2"] }}
+{% endif %}
+
+maximum_object_size 300000 KB
+
+{% if squid_block_yum_metadata %}
+acl yummeta urlpath_regex \.xml$
+acl yummeta urlpath_regex xml\.gz$
+acl yummeta urlpath_regex sqlite\.bz2$
+cache deny yummeta
+{% endif %}
+
+{% if squid_allow_snmp_local %}
+acl snmplocal snmp_community public
+snmp_access allow snmplocal localhost
+snmp_access deny all
+snmp_port 161
+{% endif %}
