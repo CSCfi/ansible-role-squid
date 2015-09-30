@@ -6,18 +6,18 @@
 #
 {% if squid_cache_local %}
 acl manager url_regex -i ^cache_object:// /squid-internal-mgr/
-acl localhost src 127.0.0.1 ::1
 {% endif %}
 
 # Example rule allowing access from your local networks.
 # Adapt to list your (internal) IP networks from where browsing
 # should be allowed
-acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
-#acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
-#acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
 {% if internal_net %}
 acl localnet src {{ squid_internal_net }} # internal ethernet network
+{% else %}
+acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
 {% endif %}
+#acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
+#acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
 acl localnet src fc00::/7       # RFC 4193 local private network range
 acl localnet src fe80::/10      # RFC 4291 link-local (directly plugged) machines
 
