@@ -4,6 +4,10 @@
 - name: "Install squid"
   yum: name=squid state=latest
 
+- name: "Set up extra cache dir"
+  file: path={{ squid_cache_dir2 }} state=directory
+  when: squid_extra_cache_dir
+
 - name: "Template in squid.conf"
   template: src=squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=squid mode=0640 backup=yes
   register: squidconfig

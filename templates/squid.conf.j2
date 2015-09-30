@@ -72,7 +72,7 @@ http_port 3128
 #cache_dir ufs /var/spool/squid 100 16 256
 
 # Leave coredumps in the first cache dir
-coredump_dir {{ squid_default_spool_dir }}
+coredump_dir {{ squid_default_cache_dir }}
 
 #
 # Add any of your own refresh_pattern entries above these.
@@ -84,9 +84,9 @@ refresh_pattern .		0	20%	4320
 
 ### Additions
 
-cache_dir ufs {{ squid_default_spool_dir }} 100 16 256
-{% if squid_spool_dir2 %}
-cache_dir ufs {{ squid_spool_dir2["path"] }} {{ squid_spool_dir2["MB"] }} {{ squid_spool_dir2["L1"] }} {{ squid_spool_dir2["L2"] }}
+cache_dir ufs {{ squid_default_cache_dir }} 100 16 256
+{% if squid_extra_cache_dir %}
+cache_dir ufs {{ squid_cache_dir2["path"] }} {{ squid_cache_dir2["MB"] }} {{ squid_cache_dir2["L1"] }} {{ squid_cache_dir2["L2"] }}
 {% endif %}
 
 maximum_object_size 300000 KB
