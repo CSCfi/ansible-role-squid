@@ -6,3 +6,6 @@
 
 - include: debian.yml
   when: ansible_os_family == "Debian"
+
+- name: "Enable on boot"
+  service: name=squid enabled=yes
