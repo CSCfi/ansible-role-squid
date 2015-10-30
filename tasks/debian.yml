@@ -13,5 +13,5 @@
   register: squidconfig
 
 - name: "Restart squid if config changed"
-  service: name=squid state=restarted
+  service: name=squid3 state=restarted
   when: squidconfig.changed
