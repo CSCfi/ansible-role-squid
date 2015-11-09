@@ -17,7 +17,7 @@
 #  when: squidconfig.changed
 
 - name: "is squid listening?"
-  command: ss -ln|grep 3128
+  command: ss -ln
   register: squid_ss_output
 
 - debug: var=squid_ss_output
