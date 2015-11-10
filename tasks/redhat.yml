@@ -17,7 +17,7 @@
 #  when: squidconfig.changed
 
 - name: "is squid listening?"
-  command: ss -ln
+  command: ss -lntu
   register: squid_ss_output
   always_run: True
 
