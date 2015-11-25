@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-squid.svg)](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-squid)
 ansible-role-squid
 =========
 
