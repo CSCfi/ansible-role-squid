@@ -11,7 +11,7 @@ env:
 branches:
   except:
   #- master
-  - travis
+  - notesting
 
 services:
   - docker
