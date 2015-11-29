@@ -21,5 +21,6 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 # generate ssh keys
 RUN ssh-keygen -q -t rsa -f ~/.ssh/id_rsa
 ##
+EXPOSE 3128
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/sbin/init"]
