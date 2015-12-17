@@ -4,6 +4,9 @@
 - name: "Install squid"
   yum: name=squid state=latest
 
+- name: "Install ss"
+  yum: name=squid state=latest
+
 - name: "Set up extra cache dir"
   file: path={{ squid_cache_dir2["path"] }} state=directory owner=squid group=squid mode=0755
   when: squid_extra_cache_dir
