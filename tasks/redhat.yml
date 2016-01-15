@@ -4,8 +4,8 @@
 - name: "Install squid"
   yum: name=squid state=latest
 
-- name: "Install ss"
-  yum: name=ss state=latest
+- name: "Install ss from package iproute"
+  yum: name=iproute state=latest
 
 - name: "Set up extra cache dir"
   file: path={{ squid_cache_dir2["path"] }} state=directory owner=squid group=squid mode=0755
