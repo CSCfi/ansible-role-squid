@@ -1,0 +1,7 @@
+---
+
+- name: restart squid
+  service: name=squid state=restarted
+
+- name: restart squid3
+  service: name=squid3 state=restarted

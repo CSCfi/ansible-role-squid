@@ -10,8 +10,5 @@
 
 - name: "Template in squid.conf"
   template: src=squid.conf.j2 dest=/etc/squid3/squid.conf owner=root group=proxy mode=0640 backup=yes
-  register: squidconfig
-
-- name: "Restart squid if config changed"
-  service: name=squid3 state=restarted enabled=yes
-  when: squidconfig.changed
+  notify:
+   - restart squid3
