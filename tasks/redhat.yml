@@ -20,6 +20,7 @@
   command: ss -lntu
   register: squid_ss_output
   always_run: True
+  changed_when: False
 
 - debug: var=squid_ss_output
 
