@@ -16,6 +16,9 @@
   notify:
    - restart squid
 
+- name: "Start and enable squid"
+  service: name=squid state=started enabled=yes
+
 - name: "is squid listening?"
   command: ss -lntu
   register: squid_ss_output
