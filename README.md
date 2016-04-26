@@ -13,7 +13,7 @@ get this error?
 msg: Destination /etc/squid not writable
 </pre>
 
-Set "sudo: yes" on the host
+Set "become: yes" on the host
 
 Role Variables
 --------------
