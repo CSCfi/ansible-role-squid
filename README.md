@@ -2,7 +2,7 @@
 ansible-role-squid
 =========
 
-Installs and configures a Squid proxy for RHEL7 based OS.
+Installs and configures a Squid proxy.
 
 Requirements
 ------------
@@ -18,8 +18,14 @@ Set "become: yes" on the host
 Role Variables
 --------------
 
-internal_net: "10.0.0.0/8"
+See defaults/main.yml
 
+<pre>
+internal_net: "10.0.0.0/8"
+squid_extra_settings:
+  - "setting1"
+  - "setting2"
+</pre>
 
 Dependencies
 ------------

@@ -1,6 +1,6 @@
 # Managed by ansible!
-# Only changes from config from squid-3.3.8-12.el7_0.x86_64 
-# is to comment out RFC1918 addresses and only allow the internal_net variable. 
+# Initial config from squid-3.3.8-12.el7_0.x86_64 
+# Comment out RFC1918 addresses and only allow the internal_net variable. 
 #
 # Recommended minimum configuration:
 #
@@ -103,4 +103,11 @@ acl snmplocal snmp_community public
 snmp_access allow snmplocal localhost
 snmp_access deny all
 snmp_port 161
+{% endif %}
+
+{% if squid_extra_settings is defined %}
+# Extra Slurm Settings
+{% for squid_xsetting in squid_extra_settings %}
+{{ squid_xsetting }}
+{% endfor %}
 {% endif %}
