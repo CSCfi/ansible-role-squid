@@ -84,7 +84,6 @@ refresh_pattern .		0	20%	4320
 
 ### Additions
 
-cache_dir ufs {{ squid_default_cache_dir }} 100 16 256
 {% if squid_extra_cache_dir %}
 cache_dir ufs {{ squid_cache_dir2["path"] }} {{ squid_cache_dir2["MB"] }} {{ squid_cache_dir2["L1"] }} {{ squid_cache_dir2["L2"] }}
 {% endif %}
