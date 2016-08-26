@@ -5,7 +5,7 @@ squid_internal_net: "{{ internal_net | default() }}"
 squid_default_cache_dir: "/var/spool/squid"
 # cache_dir ufs /squid/cache  100000 16 256
 squid_extra_cache_dir: True
-squid_cache_dir2: { path: "/squid/cache", MB: 100000, L1: 16, L2: 256 }
+squid_cache_dir2: { path: "/squid/cache", MB: 30000, L1: 16, L2: 256 }
 squid_block_yum_metadata: True
 squid_allow_snmp_local: True
 squid_cache_local: True
