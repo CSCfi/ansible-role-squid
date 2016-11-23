@@ -22,7 +22,7 @@
 - name: "is squid listening?"
   command: ss -lntu
   register: squid_ss_output
-  always_run: True
+  check_mode: no
   changed_when: False
 
 - debug: var=squid_ss_output verbosity=1
