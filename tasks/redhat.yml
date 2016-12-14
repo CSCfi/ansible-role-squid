@@ -11,6 +11,16 @@
   file: path={{ squid_cache_dir2["path"] }} state=directory owner=squid group=squid mode=0755
   when: squid_extra_cache_dir
 
+- sefcontext: 
+        name: Set SELinux context for squid cache dir
+        target: {{ squid_cache_dir2 }}/(.*)?
+        setype: squid_cache_t
+        state: present
+        reload: yes
+        seuser: system_u
+        serange: object_r
+  when: squid_extra_cache_dir
+
 - name: "Template in squid.conf"
   template: src=squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=squid mode=0640 backup=yes
   notify:
@@ -30,3 +40,4 @@
 - name: Wait for squid port to come up
   wait_for: port=3128 timeout=60 host=0.0.0.0
   when: ansible_virtualization_type != "docker"
+
