@@ -12,4 +12,3 @@ squid_cache_local: True
 # set new settings by defining squid_extra_settings list. The example below changes timestamp in the access log to human readable timestamp from GMT (%tg instead of %ts)
 #squid_extra_settings:
 #  - "logformat squid      %tg.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
-squid_selinux_files: "/squid/cache(/.*)?"
