@@ -25,15 +25,15 @@
 
 - name: "SELinux: Allow squid to use extra cache dir (1/2)"
   command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}(/.*?)'
-  when: squid_extra_cache_dir && ansible_selinux.status == "enabled"
+  when: squid_extra_cache_dir and ansible_selinux and ( ansible_selinux.status == "enabled" )
 
 - name: "SELinux: Allow squid to use extra cache dir (2/2)"
   command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}'
-  when: squid_extra_cache_dir && ansible_selinux.status == "enabled"
+  when: squid_extra_cache_dir and ansible_selinux and ( ansible_selinux.status == "enabled" )
 
 - name: "SELinux: Set correct context for extra cache dir"
   command: restorecon -R {{ squid_cache_dir2["path"] }} 
-  when: squid_extra_cache_dir && ansible_selinux.status == "enabled"
+  when: squid_extra_cache_dir and ansible_selinux and ( ansible_selinux.status == "enabled" )
 
 - name: "Template in squid.conf"
   template: src=squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=squid mode=0640 backup=yes
