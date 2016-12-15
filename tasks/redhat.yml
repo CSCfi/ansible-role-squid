@@ -4,6 +4,10 @@
 - name: "Install squid"
   yum: name=squid state=latest
 
+- name: "Install policycoreutils-python"
+  yum: name=policycoreutils-python state=latest
+  when: squid_extra_cache_dir
+
 - name: "Install ss from package iproute"
   yum: name=iproute state=latest
 
@@ -11,14 +15,20 @@
   file: path={{ squid_cache_dir2["path"] }} state=directory owner=squid group=squid mode=0755
   when: squid_extra_cache_dir
 
-- sefcontext: 
-        name: Set SELinux context for squid cache dir
-        target: {{ squid_cache_dir2 }}/(.*)?
-        setype: squid_cache_t
+- name: "SELinux: Allow squid to use SNMP UDP port"
+  seport:
+        ports: 161
+        proto: "udp"
+        setype: "squid_port_t"
         state: present
-        reload: yes
-        seuser: system_u
-        serange: object_r
+
+- name: "SELinux: Allow squid to use extra cache dir"
+  command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}(/.*?)'
+  command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}'
+  when: squid_extra_cache_dir
+
+- name: "SELinux: Set correct context for extra cache dir"
+  command: restorecon -R {{ squid_cache_dir2["path"] }} 
   when: squid_extra_cache_dir
 
 - name: "Template in squid.conf"
