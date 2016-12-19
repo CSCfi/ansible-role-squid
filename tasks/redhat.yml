@@ -38,7 +38,6 @@
 
 - name: "SELinux: Allow squid to use extra cache dir (1/2)"
   command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}(/.*?)'
-  run_once: true
   when:
     - squid_extra_cache_dir is defined
     - ansible_selinux != false
@@ -46,7 +45,6 @@
 
 - name: "SELinux: Allow squid to use extra cache dir (2/2)"
   command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}'
-  run_once: true
   when:
     - squid_extra_cache_dir is defined
     - ansible_selinux != false
@@ -54,7 +52,6 @@
 
 - name: "SELinux: Set correct context for extra cache dir"
   command: restorecon -R {{ squid_cache_dir2["path"] }}
-  run_once: true
   when:
     - squid_extra_cache_dir is defined
     - ansible_selinux != false
