@@ -41,7 +41,7 @@
   run_once: true
   when:
     - squid_extra_cache_dir is defined
-    - ansible_selinux != false )
+    - ansible_selinux != false
     - ansible_selinux.status == "enabled"
 
 - name: "SELinux: Allow squid to use extra cache dir (2/2)"
