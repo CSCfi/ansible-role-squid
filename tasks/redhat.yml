@@ -19,7 +19,7 @@
 
 - name: "Set up extra cache dir"
   file:
-    path: "{{ squid_cache_dir2["path"] }}"
+    path: '{{ squid_cache_dir2["path"] }}'
     state: directory
     owner: squid
     group: squid
