@@ -12,3 +12,19 @@
   template: src=squid.conf.j2 dest=/etc/squid3/squid.conf owner=root group=proxy mode=0640 backup=yes
   notify:
    - restart squid3
+
+- name: "is squid listening?"
+  command: ss -lntu
+  register: squid_ss_output
+  check_mode: no
+  changed_when: False
+
+- debug: var=squid_ss_output verbosity=1
+
+- name: Wait for squid port to come up
+  wait_for:
+    port: 3128
+    timeout: 60
+    host: 0.0.0.0
+  when: ansible_virtualization_type != "docker"
+
