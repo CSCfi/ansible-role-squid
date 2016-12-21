@@ -13,6 +13,7 @@ matrix:
 env:
   - IMAGE_BUILD_PLATFORM=stable-centos7
   - IMAGE_BUILD_PLATFORM=devel-centos7
+  - IMAGE_BUILD_PLATFORM=devel-ubuntu1510
 
 install:
   - npm install -g validate-dockerfile
