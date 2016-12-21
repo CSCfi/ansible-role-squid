@@ -34,7 +34,7 @@ RUN \
   apt-get install -y build-essential && \
   apt-get install -y software-properties-common && \
   apt-get install -y byobu curl git htop man unzip vim wget python-pip tree && \
-  apt-get install -y libyaml-dev python-dev python-jinja2 python-httplib2 python-keyczar python-paramiko && \
+  apt-get install -y libyaml-dev python-dev python-jinja2 python-httplib2 python-keyczar python-paramiko python-setuptools && \
   apt-get install -y libffi-dev libssl-dev iproute2 && \
   pip install pyrax pysphere boto passlib dnspython
 
