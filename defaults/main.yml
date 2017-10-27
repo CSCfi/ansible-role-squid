@@ -25,3 +25,9 @@ squid_limit_outgoing_traffic: False
 # set new settings by defining squid_extra_settings list. The example below changes timestamp in the access log to human readable timestamp from GMT (%tg instead of %ts)
 #squid_extra_settings:
 #  - "logformat squid      %tg.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
+#
+# Set to allow other local networks to access the squid
+# extra_internal_net:
+#  - 192.168.100.0/24
+#  - 192.168.200.0/24 
+#

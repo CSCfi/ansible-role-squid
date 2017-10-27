@@ -16,6 +16,12 @@ acl localnet src {{ squid_internal_net }} # internal ethernet network
 {% else %}
 acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
 {% endif %}
+{% if extra_internal_net is defined %}
+{% for item in extra_internal_net %} 
+acl localnet src {{ item }} # extra network from ansible extra_internal_net
+{% endfor %}
+{% endif %}
+
 #acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
 #acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
 acl localnet src fc00::/7       # RFC 4193 local private network range
