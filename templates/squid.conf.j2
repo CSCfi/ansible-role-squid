@@ -16,7 +16,7 @@ acl localnet src {{ squid_internal_net }} # internal ethernet network
 {% else %}
 acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
 {% endif %}
-{% if extra_internal_net %}
+{% if extra_internal_net is defined %}
 {% for item in extra_internal_net %} 
 acl localnet src {{ item }}
 {% endfor %}
