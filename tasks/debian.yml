@@ -14,7 +14,7 @@
 - name: "Template in squid.conf"
   template: src=squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=proxy mode=0640 backup=yes
   notify:
-   - restart squid3
+   - restart squid
 
 - name: "is squid listening?"
   command: ss -lntu
