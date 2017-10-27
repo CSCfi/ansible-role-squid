@@ -4,6 +4,9 @@
 - name: "Install squid"
   apt: name=squid state=latest
 
+- name: "Install iproute2"
+  apt: name=iproute2 state=latest
+
 - name: "Set up extra cache dir"
   file: path={{ squid_cache_dir2["path"] }} state=directory owner=proxy group=proxy mode=0755
   when: squid_extra_cache_dir
