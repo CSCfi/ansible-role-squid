@@ -26,4 +26,8 @@ squid_limit_outgoing_traffic: False
 #squid_extra_settings:
 #  - "logformat squid      %tg.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
 #
-# 
+# Set to allow other local networks to access the squid
+# extra_internal_net:
+#  - 192.168.100.0/24
+#  - 192.168.200.0/24 
+#
