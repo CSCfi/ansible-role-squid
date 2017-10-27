@@ -136,7 +136,6 @@ function main(){
     test_playbook
     test_playbook_check
     extra_tests
-
 }
 
 ################ run #########################
