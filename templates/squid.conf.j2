@@ -105,12 +105,11 @@ http_port 3128
 coredump_dir {{ squid_default_cache_dir }}
 
 #
-# Add any of your own refresh_pattern entries above these.
-#
-refresh_pattern ^ftp:		1440	20%	10080
-refresh_pattern ^gopher:	1440	0%	1440
-refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
-refresh_pattern .		0	20%	4320
+# Add any of your own refresh_pattern entries above these. Like:
+# refresh_pattern ^ftp:           1440    20%     10080
+{% for pattern in refresh_patterns %}
+{{ pattern }}
+{% endfor %}
 
 ### Additions
 
@@ -118,7 +117,7 @@ refresh_pattern .		0	20%	4320
 cache_dir ufs {{ squid_cache_dir2["path"] }} {{ squid_cache_dir2["MB"] }} {{ squid_cache_dir2["L1"] }} {{ squid_cache_dir2["L2"] }}
 {% endif %}
 
-maximum_object_size 300000 KB
+maximum_object_size {{ maximum_object_size_kb }} KB
 
 {% if squid_block_yum_metadata %}
 acl yummeta urlpath_regex \.xml$

@@ -31,3 +31,10 @@ squid_limit_outgoing_traffic: False
 #  - 192.168.100.0/24
 #  - 192.168.200.0/24 
 #
+refresh_patterns:
+  - 'refresh_pattern ^ftp:           1440    20%     10080'
+  - 'refresh_pattern ^gopher:        1440    0%      1440'
+  - 'refresh_pattern -i (/cgi-bin/|\?) 0     0%      0'
+  - 'refresh_pattern .               0       20%     4320'
+
+maximum_object_size_kb: 300000
