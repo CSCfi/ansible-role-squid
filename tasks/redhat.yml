@@ -1,7 +1,6 @@
 ---
 # tasks file for ansible-role-squid
 
-<<<<<<< HEAD
 - name: "Install required packages"
   yum: 
     name: 
@@ -9,17 +8,6 @@
       - policycoreutils-python
       - iproute
     state: latest
-=======
-- name: "Install squid"
-  yum: name=squid state=latest
-
-- name: "Install policycoreutils-python"
-  yum: name=policycoreutils-python state=latest
-  when: squid_extra_cache_dir
-
-- name: "Install ss from package iproute"
-  yum: name=iproute state=latest
->>>>>>> 605bf4447cb09799febc70e34698104027b5483c
 
 - name: "Set up extra cache dir"
   file:
