@@ -1,33 +1,28 @@
 ---
 # tasks file for ansible-role-squid
 
-- name: "Install squid"
-  apt: name=squid state=latest
-
-- name: "Install iproute2"
-  apt: name=iproute2 state=latest
+- name: "Install iproute2 on Debian"
+  apt:
+    name: iproute2
+    state: "{{ squid_package_state }}"
 
 - name: "Set up extra cache dir"
-  file: path={{ squid_cache_dir2["path"] }} state=directory owner=proxy group=proxy mode=0755
+  file:
+    path: "{{ squid_cache_dir2.path }}"
+    state: directory
+    owner: proxy
+    group: proxy
+    mode: 0755
   when: squid_extra_cache_dir
 
 - name: "Template in squid.conf"
-  template: src=squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=proxy mode=0640 backup=yes
+  template:
+    src: squid.conf.j2
+    dest: /etc/squid/squid.conf
+    owner: root
+    group: proxy
+    mode: 0640
+    backup: yes
   notify:
    - restart squid
-
-- name: "is squid listening?"
-  command: ss -lntu
-  register: squid_ss_output
-  check_mode: no
-  changed_when: False
-
-- debug: var=squid_ss_output verbosity=1
-
-- name: Wait for squid port to come up
-  wait_for:
-    port: 3128
-    timeout: 60
-    host: 0.0.0.0
-  when: ansible_virtualization_type != "docker"
-
+...

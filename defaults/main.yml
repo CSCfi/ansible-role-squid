@@ -1,5 +1,8 @@
 ---
 # defaults file for ansible-role-squid
+
+squid_package_state: "present"
+
 internal_net: ""
 squid_internal_net: "{{ internal_net | default() }}"
 squid_default_cache_dir: "/var/spool/squid"

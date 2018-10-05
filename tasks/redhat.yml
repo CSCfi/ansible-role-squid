@@ -1,13 +1,12 @@
 ---
 # tasks file for ansible-role-squid
 
-- name: "Install required packages"
+- name: "Install required packages on redhat"
   yum: 
     name: 
-      - squid 
       - policycoreutils-python
       - iproute
-    state: latest
+    state: "{{ squid_package_state }}"
 
 - name: "Set up extra cache dir"
   file:
@@ -65,19 +64,4 @@
     name: squid
     state: started
     enabled: yes
-
-- name: "is squid listening?"
-  command: ss -lntu
-  register: squid_ss_output
-  check_mode: no
-  changed_when: False
-
-- debug: var=squid_ss_output verbosity=1
-
-- name: Wait for squid port to come up
-  wait_for:
-    port: 3128
-    timeout: 60
-    host: 0.0.0.0
-  when: ansible_virtualization_type != "docker"
-
+...
