@@ -15,7 +15,7 @@
     owner: squid
     group: squid
     mode: 0755
-  when: squid_extra_cache_dir
+  when: squid_extra_cache_dir|bool
 
 - name: "SELinux: Allow squid to use SNMP UDP port"
   seport:

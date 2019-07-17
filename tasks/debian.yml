@@ -13,7 +13,7 @@
     owner: proxy
     group: proxy
     mode: 0755
-  when: squid_extra_cache_dir
+  when: squid_extra_cache_dir|bool
 
 - name: "Template in squid.conf"
   template:
