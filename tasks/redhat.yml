@@ -27,26 +27,20 @@
     - ansible_selinux != false
     - ansible_selinux.status == "enabled"
 
-- name: "SELinux: Allow squid to use extra cache dir (1/2)"
-  command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}(/.*?)'
+- name: "SELinux: Allow squid to use extra cache dir"
+  sefcontext:
+    ftype: a
+    setype: squid_cache_t
+    target: "{{ squid_cache_dir2['path']}}(/.*)?"
+    state: "{{ squid_extra_cache_dir |ternary( 'present', 'absent') }}"
+  register: register_sefcontext
   when:
-    - squid_extra_cache_dir is defined
-    - ansible_selinux != false
-    - ansible_selinux.status == "enabled"
-
-- name: "SELinux: Allow squid to use extra cache dir (2/2)"
-  command: /usr/sbin/semanage fcontext -a -t squid_cache_t '{{ squid_cache_dir2["path"]}}'
-  when:
-    - squid_extra_cache_dir is defined
     - ansible_selinux != false
     - ansible_selinux.status == "enabled"
 
 - name: "SELinux: Set correct context for extra cache dir"
   command: restorecon -R {{ squid_cache_dir2["path"] }}
-  when:
-    - squid_extra_cache_dir is defined
-    - ansible_selinux != false
-    - ansible_selinux.status == "enabled"
+  when: register_sefcontext.changed
 
 - name: "Template in squid.conf"
   template:
