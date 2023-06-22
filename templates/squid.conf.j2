@@ -46,6 +46,11 @@ acl CONNECT method CONNECT
 acl outgoing_domains dstdomain {{ outgoing_domain }}
 {% endfor %}
 {% endif %}
+{% if squid_allowed_outgoing_domains_regex is defined %}
+{% for outgoing_domain in squid_allowed_outgoing_domains_regex %}
+acl outgoing_domains_regex dstdom_regex {{ outgoing_domain }}
+{% endfor %}
+{% endif %}
 {% if squid_allowed_outgoing_ips is defined %}
 {% for outgoing_ip in squid_allowed_outgoing_ips %}
 acl outgoing_ips dst {{ outgoing_ip }}
@@ -81,6 +86,9 @@ http_access deny manager
 {% if squid_limit_outgoing_traffic %}
 {% if squid_allowed_outgoing_domains is defined %}
 http_access allow localnet outgoing_domains
+{% endif %}
+{% if squid_allowed_outgoing_domains_regex is defined %}
+http_access allow localnet outgoing_domains_regex
 {% endif %}
 {% if squid_allowed_outgoing_ips is defined %}
 http_access allow localnet outgoing_ips
