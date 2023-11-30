@@ -27,7 +27,9 @@ acl localnet src {{ item }} # extra network from ansible squid_extra_internal_ne
 acl localnet src fc00::/7       # RFC 4193 local private network range
 acl localnet src fe80::/10      # RFC 4291 link-local (directly plugged) machines
 
-acl SSL_ports port 443
+{% for item in squid_allowed_ssl_ports %}
+acl SSL_ports port {{ item }}
+{% endfor %}
 acl Safe_ports port 80		# http
 acl Safe_ports port 21		# ftp
 acl Safe_ports port 443		# https
