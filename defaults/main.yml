@@ -41,3 +41,6 @@ refresh_patterns:
   - 'refresh_pattern .               0       20%     4320'
 
 maximum_object_size_kb: 300000
+
+squid_allowed_ssl_ports:
+  - 443
