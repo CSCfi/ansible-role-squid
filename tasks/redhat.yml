@@ -2,15 +2,23 @@
 # tasks file for ansible-role-squid
 
 - name: "Install required packages on CentOS7/RHEL7"
-  yum: 
-    name: 
+  yum:
+    name:
       - policycoreutils-python
       - iproute
     state: "{{ squid_package_state }}"
   when: ansible_distribution_version == "7"
 
 - name: "Install required packages on CentOS8/RHEL8"
-  dnf: 
+  dnf:
+    name:
+      - python3-policycoreutils
+      - iproute
+    state: "{{ squid_package_state }}"
+  when: ansible_distribution_version == "8"
+
+- name: "Install required packages on RHEL9/CentOS9-stream"
+  dnf:
     name: 
       - python3-policycoreutils
       - iproute
@@ -32,7 +40,7 @@
     proto: "udp"
     setype: "squid_port_t"
     state: present
-  when: 
+  when:
     - ansible_selinux != false
     - ansible_selinux.status == "enabled"
 
@@ -53,10 +61,10 @@
 
 - name: "Template in squid.conf"
   template:
-    src: squid.conf.j2
-    dest: /etc/squid/squid.conf
-    owner: root
-    group: squid
+    src: "squid.conf.j2"
+    dest: "/etc/squid/squid.conf"
+    owner: "root"
+    group: "squid"
     mode: 0640
     backup: yes
   notify:
@@ -64,7 +72,7 @@
 
 - name: "Start and enable squid"
   service:
-    name: squid
+    name: "squid"
     state: started
-    enabled: yes
+    enabled: true
 ...
