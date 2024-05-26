@@ -2,25 +2,25 @@
 # tasks file for ansible-role-squid
 
 - name: "Install iproute2 on Debian"
-  apt:
-    name: iproute2
+  ansible.builtin.apt:
+    name: "iproute2"
     state: "{{ squid_package_state }}"
 
 - name: "Set up extra cache dir"
-  file:
+  ansible.builtin.file:
     path: "{{ squid_cache_dir2.path }}"
     state: directory
-    owner: proxy
-    group: proxy
+    owner: "proxy"
+    group: "proxy"
     mode: 0755
   when: squid_extra_cache_dir|bool
 
 - name: "Template in squid.conf"
-  template:
-    src: squid.conf.j2
-    dest: /etc/squid/squid.conf
-    owner: root
-    group: proxy
+  ansible.builtin.template:
+    src: "squid.conf.j2"
+    dest: "/etc/squid/squid.conf"
+    owner: "root"
+    group: "proxy"
     mode: 0640
     backup: yes
   notify:
