@@ -14,11 +14,11 @@
   ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == "Debian"
 
-- name: "is squid listening?"
+- name: "Check if squid is listening?"
   ansible.builtin.command: ss -lntu
   register: squid_ss_output
-  check_mode: no
-  changed_when: False
+  check_mode: false
+  changed_when: false
 
 - name: "Debug output of squid_ss_output"
   ansible.builtin.debug:

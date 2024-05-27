@@ -19,7 +19,7 @@
 
 - name: "Install required packages on RHEL9/CentOS9-stream"
   ansible.builtin.dnf:
-    name: 
+    name:
       - python3-policycoreutils
       - iproute
     state: "{{ squid_package_state }}"
@@ -41,23 +41,21 @@
     setype: "squid_port_t"
     state: present
   when:
-    - ansible_selinux != false
+    - ansible_selinux is false
     - ansible_selinux.status == "enabled"
 
 - name: "SELinux: Allow squid to use extra cache dir"
   community.general.sefcontext:
     ftype: a
     setype: squid_cache_t
-    target: "{{ squid_cache_dir2['path']}}(/.*)?"
-    state: "{{ squid_extra_cache_dir |ternary( 'present', 'absent') }}"
+    target: "{{ squid_cache_dir2['path'] }}(/.*)?"
+    state: "{{ squid_extra_cache_dir | ternary('present', 'absent') }}"
   register: register_sefcontext
   when:
-    - ansible_selinux != false
+    - ansible_selinux is false
     - ansible_selinux.status == "enabled"
-
-- name: "SELinux: Set correct context for extra cache dir"
-  ansible.builtin.command: restorecon -R {{ squid_cache_dir2["path"] }}
-  when: register_sefcontext.changed
+  notify:
+    - Set correct context
 
 - name: "Template in squid.conf"
   ansible.builtin.template:
@@ -66,9 +64,9 @@
     owner: "root"
     group: "squid"
     mode: 0640
-    backup: yes
+    backup: true
   notify:
-   - restart squid
+    - Restart squid
 
 - name: "Start and enable squid"
   ansible.builtin.service:

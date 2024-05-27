@@ -22,7 +22,7 @@
     owner: "root"
     group: "proxy"
     mode: 0640
-    backup: yes
+    backup: true
   notify:
-   - restart squid
+    - Restart squid
 ...
