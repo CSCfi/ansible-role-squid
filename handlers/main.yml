@@ -1,7 +1,7 @@
 ---
 
 - name: restart squid
-  ansible.buildin.service:
+  ansible.builtin.service:
     name: "squid"
     state: restarted
 
