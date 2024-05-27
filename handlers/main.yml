@@ -11,4 +11,4 @@
     state: restarted
 
 - name: "Set correct context"
-  ansible.builtin.command: restorecon -R {{ squid_cache_dir2["path"] }}
+  ansible.builtin.command: restorecon -R {{ squid_cache_dir2["path"] }} # noqa: no-changed-when

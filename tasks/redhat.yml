@@ -31,7 +31,7 @@
     state: directory
     owner: squid
     group: squid
-    mode: 0755
+    mode: "0755"
   when: squid_extra_cache_dir|bool
 
 - name: "SELinux: Allow squid to use SNMP UDP port"
@@ -63,7 +63,7 @@
     dest: "/etc/squid/squid.conf"
     owner: "root"
     group: "squid"
-    mode: 0640
+    mode: "0640"
     backup: true
   notify:
     - Restart squid

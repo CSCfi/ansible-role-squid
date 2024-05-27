@@ -12,7 +12,7 @@
     state: directory
     owner: "proxy"
     group: "proxy"
-    mode: 0755
+    mode: "0755"
   when: squid_extra_cache_dir|bool
 
 - name: "Template in squid.conf"
@@ -21,7 +21,7 @@
     dest: "/etc/squid/squid.conf"
     owner: "root"
     group: "proxy"
-    mode: 0640
+    mode: "0640"
     backup: true
   notify:
     - Restart squid
