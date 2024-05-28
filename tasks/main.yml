@@ -2,28 +2,31 @@
 # tasks file for ansible-role-squid
 
 - name: "Install squid"
-  package:
+  ansible.builtin.package:
     name: squid
     state: "{{ squid_package_state }}"
 
-- include_tasks: redhat.yml
+- name: "Import tasks for RedHat / CentOS"
+  ansible.builtin.include_tasks: redhat.yml
   when: ansible_os_family == "RedHat"
 
-- include_tasks: debian.yml
+- name: "Import tasks for Debian"
+  ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == "Debian"
 
-- name: "is squid listening?"
-  command: ss -lntu
+- name: "Check if squid is listening?"
+  ansible.builtin.command: ss -lntu
   register: squid_ss_output
-  check_mode: no
-  changed_when: False
+  check_mode: false
+  changed_when: false
 
-- debug:
+- name: "Debug output of squid_ss_output"
+  ansible.builtin.debug:
     var: squid_ss_output
     verbosity: 1
 
 - name: Wait for squid port to come up
-  wait_for:
+  ansible.builtin.wait_for:
     port: "{{ squid_port | default(3128) }}"
     timeout: 60
     host: 0.0.0.0

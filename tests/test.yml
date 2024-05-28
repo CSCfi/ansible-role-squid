@@ -1,15 +1,18 @@
 ---
 
- - hosts: localhost
-   remote_user: root
-   vars:
-    - internal_net: "10.0.0.0/8"
-    - squid_limit_outgoing_traffic: True
-    - squid_allowed_outgoing_domains: [ example.com ]
-    - squid_allowed_outgoing_ips: [ 8.8.8.8 ]
-    - squid_extra_internal_net:
-          - 192.168.102.0/8
-          - 192.168.104.0/8 
+- name: "Test of ansible-role-squid"
+  hosts: localhost
+  remote_user: root
+  vars:
+    internal_net: "10.0.0.0/8"
+    squid_limit_outgoing_traffic: true
+    squid_allowed_outgoing_domains:
+      - example.com
+    squid_allowed_outgoing_ips:
+      - 8.8.8.8
+    squid_extra_internal_net:
+      - 192.168.102.0/24
+      - 192.168.104.0/24
 
-   roles:
-     - ansible-role-squid
+  roles:
+    - ansible-role-squid

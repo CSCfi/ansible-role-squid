@@ -2,69 +2,75 @@
 # tasks file for ansible-role-squid
 
 - name: "Install required packages on CentOS7/RHEL7"
-  yum: 
-    name: 
+  ansible.builtin.yum:
+    name:
       - policycoreutils-python
       - iproute
     state: "{{ squid_package_state }}"
   when: ansible_distribution_version == "7"
 
 - name: "Install required packages on CentOS8/RHEL8"
-  dnf: 
-    name: 
+  ansible.builtin.dnf:
+    name:
+      - python3-policycoreutils
+      - iproute
+    state: "{{ squid_package_state }}"
+  when: ansible_distribution_version == "8"
+
+- name: "Install required packages on RHEL9/CentOS9-stream"
+  ansible.builtin.dnf:
+    name:
       - python3-policycoreutils
       - iproute
     state: "{{ squid_package_state }}"
   when: ansible_distribution_version == "8"
 
 - name: "Set up extra cache dir"
-  file:
+  ansible.builtin.file:
     path: '{{ squid_cache_dir2["path"] }}'
     state: directory
     owner: squid
     group: squid
-    mode: 0755
+    mode: "0755"
   when: squid_extra_cache_dir|bool
 
 - name: "SELinux: Allow squid to use SNMP UDP port"
-  seport:
+  community.general.seport:
     ports: 161
     proto: "udp"
     setype: "squid_port_t"
     state: present
-  when: 
-    - ansible_selinux != false
+  when:
+    - ansible_selinux is false
     - ansible_selinux.status == "enabled"
 
 - name: "SELinux: Allow squid to use extra cache dir"
-  sefcontext:
+  community.general.sefcontext:
     ftype: a
     setype: squid_cache_t
-    target: "{{ squid_cache_dir2['path']}}(/.*)?"
-    state: "{{ squid_extra_cache_dir |ternary( 'present', 'absent') }}"
+    target: "{{ squid_cache_dir2['path'] }}(/.*)?"
+    state: "{{ squid_extra_cache_dir | ternary('present', 'absent') }}"
   register: register_sefcontext
   when:
-    - ansible_selinux != false
+    - ansible_selinux is false
     - ansible_selinux.status == "enabled"
-
-- name: "SELinux: Set correct context for extra cache dir"
-  command: restorecon -R {{ squid_cache_dir2["path"] }}
-  when: register_sefcontext.changed
+  notify:
+    - Set correct context
 
 - name: "Template in squid.conf"
-  template:
-    src: squid.conf.j2
-    dest: /etc/squid/squid.conf
-    owner: root
-    group: squid
-    mode: 0640
-    backup: yes
+  ansible.builtin.template:
+    src: "squid.conf.j2"
+    dest: "/etc/squid/squid.conf"
+    owner: "root"
+    group: "squid"
+    mode: "0640"
+    backup: true
   notify:
-   - restart squid
+    - Restart squid
 
 - name: "Start and enable squid"
-  service:
-    name: squid
+  ansible.builtin.service:
+    name: "squid"
     state: started
-    enabled: yes
+    enabled: true
 ...

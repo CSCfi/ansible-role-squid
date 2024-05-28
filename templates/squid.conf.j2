@@ -144,7 +144,7 @@ snmp_port 161
 {% endif %}
 
 {% if squid_extra_settings is defined %}
-# Extra Slurm Settings
+# Extra Squid Settings
 {% for squid_xsetting in squid_extra_settings %}
 {{ squid_xsetting }}
 {% endfor %}

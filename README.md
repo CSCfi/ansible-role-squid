@@ -40,6 +40,13 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: ansible-role-squid }
 
+Required Ansible collections
+----------------------------
+<pre>
+community.general
+</pre>
+
+
 License
 -------
 

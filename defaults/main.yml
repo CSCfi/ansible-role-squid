@@ -7,32 +7,33 @@ internal_net: ""
 squid_internal_net: "{{ internal_net | default() }}"
 squid_default_cache_dir: "/var/spool/squid"
 # cache_dir ufs /squid/cache  100000 16 256
-squid_extra_cache_dir: True
+squid_extra_cache_dir: true
 squid_cache_dir2: { path: "/squid/cache", MB: 30000, L1: 16, L2: 256 }
-squid_block_yum_metadata: True
-squid_allow_snmp_local: True
-squid_cache_local: True
+squid_block_yum_metadata: true
+squid_allow_snmp_local: true
+squid_cache_local: true
 
 # For limiting outgoing traffic
 
-squid_limit_outgoing_traffic: False
+squid_limit_outgoing_traffic: false
 
 # If you limit outgoing traffic, you can limit either domains, ips or both
-#squid_allowed_outgoing_domains:
+# squid_allowed_outgoing_domains:
 #  - example.com
 #  - other.example.com
 
-#squid_allowed_outgoing_ips:
+# squid_allowed_outgoing_ips:
 #  - 1.2.3.4
 
-# set new settings by defining squid_extra_settings list. The example below changes timestamp in the access log to human readable timestamp from GMT (%tg instead of %ts)
-#squid_extra_settings:
+# set new settings by defining squid_extra_settings list.
+#  The example below changes timestamp in the access log to human readable timestamp from GMT (%tg instead of %ts)
+# squid_extra_settings:
 #  - "logformat squid      %tg.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
 #
 # Set to allow other local networks to access the squid
-#squid_extra_internal_net:
+# squid_extra_internal_net:
 #  - 192.168.100.0/24
-#  - 192.168.200.0/24 
+#  - 192.168.200.0/24
 #
 refresh_patterns:
   - 'refresh_pattern ^ftp:           1440    20%     10080'
