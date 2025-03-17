@@ -7,7 +7,7 @@
       - policycoreutils-python
       - iproute
     state: "{{ squid_package_state }}"
-  when: ansible_distribution_version == "7"
+  when: ansible_distribution_major_version == "7"
 
 - name: "Install required packages on CentOS8/RHEL8"
   ansible.builtin.dnf:
@@ -15,7 +15,7 @@
       - python3-policycoreutils
       - iproute
     state: "{{ squid_package_state }}"
-  when: ansible_distribution_version == "8"
+  when: ansible_distribution_major_version == "8"
 
 - name: "Install required packages on RHEL9/CentOS9-stream"
   ansible.builtin.dnf:
@@ -23,7 +23,7 @@
       - python3-policycoreutils
       - iproute
     state: "{{ squid_package_state }}"
-  when: ansible_distribution_version == "8"
+  when: ansible_distribution_major_version == "9"
 
 - name: "Set up extra cache dir"
   ansible.builtin.file:
