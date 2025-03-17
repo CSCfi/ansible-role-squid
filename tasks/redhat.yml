@@ -41,7 +41,7 @@
     setype: "squid_port_t"
     state: present
   when:
-    - ansible_selinux is false
+    - ansible_selinux is defined
     - ansible_selinux.status == "enabled"
 
 - name: "SELinux: Allow squid to use extra cache dir"
@@ -52,7 +52,7 @@
     state: "{{ squid_extra_cache_dir | ternary('present', 'absent') }}"
   register: register_sefcontext
   when:
-    - ansible_selinux is false
+    - ansible_selinux is defined
     - ansible_selinux.status == "enabled"
   notify:
     - Set correct context
