@@ -50,12 +50,13 @@
     setype: squid_cache_t
     target: "{{ squid_cache_dir2['path'] }}(/.*)?"
     state: "{{ squid_extra_cache_dir | ternary('present', 'absent') }}"
-  register: register_sefcontext
   when:
     - ansible_selinux is defined
     - ansible_selinux.status == "enabled"
-  notify:
-    - Set correct context
+
+- name: "Set correct context"
+  ansible.builtin.command: restorecon -R {{ squid_cache_dir2["path"] }}
+  changed_when: true
 
 - name: "Template in squid.conf"
   ansible.builtin.template:
