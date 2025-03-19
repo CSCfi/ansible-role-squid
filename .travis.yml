@@ -13,6 +13,7 @@ matrix:
 
 env:
   - IMAGE_BUILD_PLATFORM=stable-centos8
+  - IMAGE_BUILD_PLATFORM=stable-almalinux9
   - IMAGE_BUILD_PLATFORM=stable-centos7
   - IMAGE_BUILD_PLATFORM=devel-centos7
 
