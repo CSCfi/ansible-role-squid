@@ -32,9 +32,8 @@
     proto: "udp"
     setype: "squid_port_t"
     state: present
-  when:
-    - ansible_selinux is defined
-    - ansible_selinux.status == "enabled"
+  when: ansible_selinux is false or
+        ansible_selinux.status == "enabled"
 
 - name: "SELinux: Allow squid to use extra cache dir"
   community.general.sefcontext:
@@ -42,9 +41,8 @@
     setype: squid_cache_t
     target: "{{ squid_cache_dir2['path'] }}(/.*)?"
     state: "{{ squid_extra_cache_dir | ternary('present', 'absent') }}"
-  when:
-    - ansible_selinux is defined
-    - ansible_selinux.status == "enabled"
+  when: ansible_selinux is false or
+        ansible_selinux.status == "enabled"
 
 - name: "Set correct context"
   ansible.builtin.command: restorecon -R {{ squid_cache_dir2["path"] }}
