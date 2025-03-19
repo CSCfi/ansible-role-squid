@@ -1,21 +1,13 @@
 ---
 # tasks file for ansible-role-squid
 
-- name: "Install required packages on CentOS7/RHEL7"
-  ansible.builtin.yum:
-    name:
-      - policycoreutils-python
-      - iproute
-    state: "{{ squid_package_state }}"
-  when: ansible_distribution_version == "7"
-
 - name: "Install required packages on CentOS8/RHEL8"
   ansible.builtin.dnf:
     name:
       - python3-policycoreutils
       - iproute
     state: "{{ squid_package_state }}"
-  when: ansible_distribution_version == "8"
+  when: ansible_distribution_major_version == "8"
 
 - name: "Install required packages on RHEL9/CentOS9-stream"
   ansible.builtin.dnf:
@@ -23,7 +15,7 @@
       - python3-policycoreutils
       - iproute
     state: "{{ squid_package_state }}"
-  when: ansible_distribution_version == "8"
+  when: ansible_distribution_major_version == "9"
 
 - name: "Set up extra cache dir"
   ansible.builtin.file:
@@ -41,7 +33,7 @@
     setype: "squid_port_t"
     state: present
   when:
-    - ansible_selinux is false
+    - ansible_selinux is defined
     - ansible_selinux.status == "enabled"
 
 - name: "SELinux: Allow squid to use extra cache dir"
@@ -50,12 +42,13 @@
     setype: squid_cache_t
     target: "{{ squid_cache_dir2['path'] }}(/.*)?"
     state: "{{ squid_extra_cache_dir | ternary('present', 'absent') }}"
-  register: register_sefcontext
   when:
-    - ansible_selinux is false
+    - ansible_selinux is defined
     - ansible_selinux.status == "enabled"
-  notify:
-    - Set correct context
+
+- name: "Set correct context"
+  ansible.builtin.command: restorecon -R {{ squid_cache_dir2["path"] }}
+  changed_when: true
 
 - name: "Template in squid.conf"
   ansible.builtin.template:
