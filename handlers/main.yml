@@ -4,8 +4,3 @@
   ansible.builtin.service:
     name: "squid"
     state: restarted
-
-- name: Restart squid3
-  ansible.builtin.service:
-    name: "squid3"
-    state: restarted
