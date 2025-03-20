@@ -1,6 +1,6 @@
 ---
 
-- name: Restart squid
+- name: Restart squid #This is needed when modifying the squid configuration file
   ansible.builtin.service:
     name: "squid"
     state: restarted
