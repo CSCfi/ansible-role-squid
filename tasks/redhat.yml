@@ -46,7 +46,7 @@
     changed_when: true
   when:
   - ansible_selinux != False
-  - ansible_selinux.status == "Enabled"
+  - ansible_selinux.status == "enabled"
 
 - name: "Template in squid.conf"
   ansible.builtin.template:
